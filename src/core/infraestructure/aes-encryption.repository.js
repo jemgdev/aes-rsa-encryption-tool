@@ -2,7 +2,9 @@ import CryptoJS from 'crypto-js'
 
 export class AESEncryptionRepository {
   generateSymmetrickKey () {
-    return CryptoJS.enc.Base64.stringify(CryptoJS.lib.WordArray.random(32))
+    const symmetrickKey = CryptoJS.enc.Base64.stringify(CryptoJS.lib.WordArray.random(32))
+
+    return symmetrickKey
   }
 
   encryptWithAES ({ payload, keyBase64 }) {

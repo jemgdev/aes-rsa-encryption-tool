@@ -8,9 +8,12 @@ export class AESEncryptionUseCase {
   }
 
   excecute (payload) {
+    const symmetrickKey = this.aesEncryptionRepository.generateSymmetrickKey()
+    this.keyManagementRepository.saveSymmetrickKey(symmetrickKey)
+
     const encryptedData = this.aesEncryptionRepository.encryptWithAES({
       payload,
-      keyBase64: this.keyManagementRepository.getSymmetrickKey()
+      keyBase64: symmetrickKey
     })
 
     return encryptedData
