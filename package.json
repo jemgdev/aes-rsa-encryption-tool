@@ -1,0 +1,19 @@
+{
+  "name": "aes-rsa-encryption",
+  "version": "1.0.0",
+  "description": "Software to encrypt data using AES and RSA encryption methods",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "3.1.9"
+  },
+  "dependencies": {
+    "crypto-js": "4.2.0"
+  }
+}
