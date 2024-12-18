@@ -1,4 +1,10 @@
 require('dotenv').config()
+const express = require('express')
+const app = express()
+
+const constants = require('./constants')
+const { errorHandler } = require('./middlewares/error-handler')
+const { notFound } = require('./middlewares/not-found')
 const { AESEncryptionUseCase } = require("./core/application/aes/aes-encryption.usecase") 
 const { AESDecryptionUseCase } = require("./core/application/aes/aes-decryption.usecase") 
 const { GenerateKeyPairUseCase } = require("./core/application/rsa/generate-key-pair.usecase")
@@ -14,6 +20,17 @@ const aesEncryptionRepository = new AESEncryptionRepository()
 const keyManagementRepository = new KeyManagementMemoryRepository()
 const rsaEncryptionRepository = new RSAEncryptionRepository()
 
+const aesRSAEncryptionUseCase = new AESRSAEncryptionUseCase({
+  aesEncryptionRepository,
+  rsaEncryptionRepository,
+  keyManagementRepository
+})
+
+const rsaEncryptionUseCase = new RSAEncryptionUseCase({
+  rsaEncryptionRepository,
+  keyManagementRepository
+})
+
 const aesEncryptionUseCase = new AESEncryptionUseCase({
   aesEncryptionRepository,
   keyManagementRepository
@@ -24,23 +41,7 @@ const aesDecryptionUseCase = new AESDecryptionUseCase({
   keyManagementRepository
 })
 
-const generateKeyPairUseCase = new GenerateKeyPairUseCase({
-  rsaEncryptionRepository,
-  keyManagementRepository
-})
-
-const rsaEncryptionUseCase = new RSAEncryptionUseCase({
-  rsaEncryptionRepository,
-  keyManagementRepository
-})
-
 const rsaDecryptionUseCase = new RSADecryptionUseCase({
-  rsaEncryptionRepository,
-  keyManagementRepository
-})
-
-const aesRSAEncryptionUseCase = new AESRSAEncryptionUseCase({
-  aesEncryptionRepository,
   rsaEncryptionRepository,
   keyManagementRepository
 })
@@ -49,4 +50,128 @@ const aesRSADecryptionUseCase = new AESRSADecryptionUseCase({
   aesEncryptionRepository,
   rsaEncryptionRepository,
   keyManagementRepository
+})
+
+app.set('PORT', constants.port)
+
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+app.get('/generate-keys', async (request, response, next) => {
+  try {
+    const generateKeyPairUseCase = new GenerateKeyPairUseCase({
+      rsaEncryptionRepository,
+      keyManagementRepository
+    })
+
+    await generateKeyPairUseCase.excecute()
+
+    response.status(200).json({
+      code: 'OPERATION_SUCCESSFUL',
+      message: 'Key pairs generated and saved in memory'
+    })
+  } catch (error) {
+    next(error)
+  }
+})
+
+app.post('/encrypt', async (request, response, next) => {
+  try {
+    const { method, data: dataToEncrypt } = request.body
+
+    if (method === 'aes') {
+      const encryptedData = aesEncryptionUseCase.excecute(JSON.stringify(dataToEncrypt))
+
+      return response.status(200).json({
+        code: 'OPERATION_SUCCESSFUL',
+        message: 'Data encrypted successfuly',
+        data: encryptedData
+      })
+    }
+
+    if (method === 'rsa') {
+      const encryptedData = rsaEncryptionUseCase.excecute(JSON.stringify(dataToEncrypt))
+
+      return response.status(200).json({
+        code: 'OPERATION_SUCCESSFUL',
+        message: 'Data encrypted successfuly',
+        data: encryptedData
+      })
+    }
+
+    if (method === 'aes-rsa') {
+      const { data, symmetrick } = aesRSAEncryptionUseCase.excecute(JSON.stringify(dataToEncrypt))
+      
+      return response.status(200).json({
+        code: 'OPERATION_SUCCESSFUL',
+        message: 'Data encrypted successfuly',
+        data: {
+          data,
+          symmetrick
+        }
+      })
+    }
+
+    response.status(400).json({
+      code: 'BAD_REQUEST',
+      message: 'Must specify a valid encryption method: aes, rsa or aes-rsa'
+    })
+  } catch (error) {
+    next(error)
+  }
+})
+
+app.post('/decrypt', async (request, response, next) => {
+  try {
+    const { method, data: dataToDecrypt } = request.body
+
+    if (method === 'aes') {
+      const decryptedData = aesDecryptionUseCase.excecute(JSON.stringify(dataToDecrypt))
+
+      return response.status(200).json({
+        code: 'OPERATION_SUCCESSFUL',
+        message: 'Data decrypted successfuly',
+        data: JSON.parse(decryptedData)
+      })
+    }
+
+    if (method === 'rsa') {
+      const decryptedData = rsaDecryptionUseCase.excecute(JSON.stringify(dataToDecrypt))
+
+      return response.status(200).json({
+        code: 'OPERATION_SUCCESSFUL',
+        message: 'Data decrypted successfuly',
+        data: JSON.parse(decryptedData)
+      })
+    }
+
+    if (method === 'aes-rsa') {
+      const { symmetrick } = request.body
+
+      const decryptedData = aesRSAEncryptionUseCase.excecute({
+        data: JSON.stringify(dataToDecrypt),
+        symmetrick
+      })
+      
+      return response.status(200).json({
+        code: 'OPERATION_SUCCESSFUL',
+        message: 'Data decrypted successfuly',
+        data: JSON.parse(decryptedData)
+      })
+    }
+
+    response.status(400).json({
+      code: 'BAD_REQUEST',
+      message: 'Must specify a valid encryption method: aes, rsa or aes-rsa'
+    })
+  } catch (error) {
+    next(error)
+  }
+})
+
+app.use(errorHandler)
+app.use(notFound)
+
+app.listen(app.get('PORT'), () => {
+  console.log(`Starting server on http://localhost:${app.get('PORT')}`)
 })

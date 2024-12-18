@@ -14,6 +14,14 @@ class AESRSAEncryptionUseCase {
       const symmetrickKey = this.aesEncryptionRepository.generateKey()
       const { publicKey } = this.keyManagementRepository.getKeyPair()
 
+      if (!publicKey) {
+        throw new Error('Must generate key pairs')
+      }
+
+      if (!payload) {
+        throw new Error('Must specify payload to encrypt')
+      }
+
       const data = this.aesEncryptionRepository.encrypt({
         payload,
         keyBase64: symmetrickKey

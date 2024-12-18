@@ -22,6 +22,10 @@ class RSAEncryptionUseCase {
         throw new Error('Data to encrypt is too long')
       }
 
+      if (error.message === 'Invalid PEM formatted message.') {
+        throw new Error('Must generate key pairs')
+      }
+
       throw new Error(error.message)
     }
   }
