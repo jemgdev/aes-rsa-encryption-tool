@@ -1,11 +1,12 @@
 {
-  "name": "aes-rsa-encryption",
+  "name": "aes-rsa-encryption-tool",
   "version": "1.0.0",
   "description": "Software to encrypt data using AES and RSA encryption methods",
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "dev": "nodemon src/main.js"
+    "dev": "nodemon src/main.js",
+    "start": "node src/main.js"
   },
   "keywords": [],
   "author": "",
@@ -15,7 +16,7 @@
   },
   "dependencies": {
     "crypto-js": "4.2.0",
-    "dotenv": "^16.4.7",
+    "dotenv": "16.4.7",
     "node-forge": "1.3.1"
   }
 }

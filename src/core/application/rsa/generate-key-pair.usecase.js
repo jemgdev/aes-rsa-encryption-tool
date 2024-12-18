@@ -24,7 +24,7 @@ class GenerateKeyPairUseCase {
       ])
 
       if (publicKey.status === 'rejected' || privateKey.status === 'rejected') {
-        console.log('Private or public key invalid, generating key pairs...')
+        console.log(`Private or public key not found in path: ${keyPath}/${environment}/[public-key.pem|private-key.pem], generating key pairs in memory...`)
 
         const { publicKeyPem, privateKeyPem } = this.rsaEncryptionRepository.generateKey()
         this.keyManagementRepository.saveKeyPair({
