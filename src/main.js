@@ -1,6 +1,9 @@
+require('dotenv').config()
 const { AESEncryptionUseCase } = require("./core/application/aes-encryption.usecase") 
 const { AESDecryptionUseCase } = require("./core/application/aes-decryption.usecase") 
-const { GenerateKeyPairUseCase } = require("./core/application/generate-key-pair.usecase") 
+const { GenerateKeyPairUseCase } = require("./core/application/generate-key-pair.usecase")
+const { RSAEncryptionUseCase } = require("./core/application/rsa-encryption.usecase")
+const { RSADecryptionUseCase } = require("./core/application/rsa-decryption.usecase")
 const { AESEncryptionRepository } = require("./core/infraestructure/aes-encryption.repository") 
 const { KeyManagementMemoryRepository, database } = require("./core/infraestructure/key-management-memory-repository") 
 const { RSAEncryptionRepository } = require("./core/infraestructure/rsa-encryption.repository") 
@@ -20,6 +23,16 @@ const aesDecryptionUseCase = new AESDecryptionUseCase({
 })
 
 const generateKeyPairUseCase = new GenerateKeyPairUseCase({
+  rsaEncryptionRepository,
+  keyManagementRepository
+})
+
+const rsaEncryptionUseCase = new RSAEncryptionUseCase({
+  rsaEncryptionRepository,
+  keyManagementRepository
+})
+
+const rsaDecryptionUseCase = new RSADecryptionUseCase({
   rsaEncryptionRepository,
   keyManagementRepository
 })
@@ -44,5 +57,8 @@ console.log('encryptedMessage: ', encryptedMessageBase64)
 console.log('decryptedMessage: ', decryptedMessage)
 
 generateKeyPairUseCase.excecute().then(() => {
-  console.log(database)
+  const encriptedData = rsaEncryptionUseCase.excecute(payload)
+  const decryptedData = rsaDecryptionUseCase.excecute(encriptedData)
+  console.log('encriptedData RSA: ', encriptedData)
+  console.log('decryptedData RSA: ', decryptedData)
 })

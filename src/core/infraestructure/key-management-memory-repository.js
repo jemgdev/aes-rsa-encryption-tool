@@ -20,6 +20,13 @@ class KeyManagementMemoryRepository {
     database.publicKey = publicKey
     database.privateKey = privateKey
   }
+
+  getKeyPair () {
+    return {
+      publicKey: database.publicKey,
+      privateKey: database.privateKey
+    }
+  }
 }
 
 module.exports = {

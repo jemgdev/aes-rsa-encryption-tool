@@ -1,5 +1,6 @@
 const fs = require('node:fs/promises') 
-const path = require('node:path') 
+const path = require('node:path')
+const { environment } = require('../../constants')
 
 class GenerateKeyPairUseCase {
   constructor ({
@@ -12,25 +13,15 @@ class GenerateKeyPairUseCase {
 
   async excecute () {
     try {
-      const keyPath = path.resolve(path.join(__dirname, '../../keys'))
+      const keyPath = path.resolve(path.join(__dirname, '../../custom-keys'))
 
       const [
         publicKey,
         privateKey
       ] = await Promise.allSettled([
-        fs.readFile(`${keyPath}/private-key.pem`),
-        fs.readFile(`${keyPath}/public-key.pem`)
+        fs.readFile(`${keyPath}/${environment}/public-key.pem`),
+        fs.readFile(`${keyPath}/${environment}/private-key.pem`)
       ])
-
-      console.log({
-        publicKeyPem: Buffer.from(publicKey.value).toString(),
-        privateKeyPem: Buffer.from(privateKey.value).toString()
-      })
-
-      this.keyManagementRepository.saveKeyPair({
-        publicKey: Buffer.from(publicKey.value).toString(),
-        privateKey: Buffer.from(privateKey.value).toString()
-      })
 
       if (publicKey.status === 'rejected' || privateKey.status === 'rejected') {
         console.log('Private or public key invalid, generating key pairs...')
@@ -40,7 +31,14 @@ class GenerateKeyPairUseCase {
           publicKey: publicKeyPem,
           privateKey: privateKeyPem
         })
+
+        return
       }
+
+      this.keyManagementRepository.saveKeyPair({
+        publicKey: Buffer.from(publicKey.value).toString(),
+        privateKey: Buffer.from(privateKey.value).toString()
+      })
     } catch (error) {
       throw new Error(error.message)
     }
