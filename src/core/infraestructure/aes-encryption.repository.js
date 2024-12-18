@@ -1,6 +1,6 @@
-import CryptoJS from 'crypto-js'
+const CryptoJS = require('crypto-js')
 
-export class AESEncryptionRepository {
+class AESEncryptionRepository {
   generateSymmetrickKey () {
     const symmetrickKey = CryptoJS.enc.Base64.stringify(CryptoJS.lib.WordArray.random(32))
 
@@ -59,4 +59,8 @@ export class AESEncryptionRepository {
       throw new Error('Invalid data')
     }
   }
+}
+
+module.exports = {
+  AESEncryptionRepository
 }

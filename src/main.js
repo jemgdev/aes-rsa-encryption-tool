@@ -1,16 +1,13 @@
-import { AESEncryptionUseCase } from "./core/application/aes-encryption.usecase.js"
-import { AESDecryptionUseCase } from "./core/application/aes-decryption.usecase.js"
-import { GenerateKeysUseCase } from "./core/application/generate-symmetrick-key.usecase.js"
-import { AESEncryptionRepository } from "./core/infraestructure/aes-encryption.repository.js"
-import { KeyManagementMemoryRepository } from "./core/infraestructure/key-management-memory-repository.js"
+const { AESEncryptionUseCase } = require("./core/application/aes-encryption.usecase") 
+const { AESDecryptionUseCase } = require("./core/application/aes-decryption.usecase") 
+const { GenerateKeyPairUseCase } = require("./core/application/generate-key-pair.usecase") 
+const { AESEncryptionRepository } = require("./core/infraestructure/aes-encryption.repository") 
+const { KeyManagementMemoryRepository, database } = require("./core/infraestructure/key-management-memory-repository") 
+const { RSAEncryptionRepository } = require("./core/infraestructure/rsa-encryption.repository") 
 
 const aesEncryptionRepository = new AESEncryptionRepository()
 const keyManagementRepository = new KeyManagementMemoryRepository()
-
-const generateKeysUseCase = new GenerateKeysUseCase({
-  aesEncryptionRepository,
-  keyManagementRepository
-})
+const rsaEncryptionRepository = new RSAEncryptionRepository()
 
 const aesEncryptionUseCase = new AESEncryptionUseCase({
   aesEncryptionRepository,
@@ -19,6 +16,11 @@ const aesEncryptionUseCase = new AESEncryptionUseCase({
 
 const aesDecryptionUseCase = new AESDecryptionUseCase({
   aesEncryptionRepository,
+  keyManagementRepository
+})
+
+const generateKeyPairUseCase = new GenerateKeyPairUseCase({
+  rsaEncryptionRepository,
   keyManagementRepository
 })
 
@@ -35,9 +37,12 @@ const payload = JSON.stringify({
   s: 1
 })
 
-generateKeysUseCase.excecute()
 const encryptedMessageBase64 = aesEncryptionUseCase.excecute(payload)
 const decryptedMessage = aesDecryptionUseCase.excecute(encryptedMessageBase64)
 
 console.log('encryptedMessage: ', encryptedMessageBase64)
 console.log('decryptedMessage: ', decryptedMessage)
+
+generateKeyPairUseCase.excecute().then(() => {
+  console.log(database)
+})

@@ -1,10 +1,10 @@
-export const database = {
+const database = {
   symmetrickKey: '',
-  publickKey: '',
+  publicKey: '',
   privateKey: ''
 }
 
-export class KeyManagementMemoryRepository {
+class KeyManagementMemoryRepository {
   saveSymmetrickKey (symmetrickKey) {
     database.symmetrickKey = symmetrickKey
   }
@@ -12,4 +12,17 @@ export class KeyManagementMemoryRepository {
   getSymmetrickKey () {
     return database.symmetrickKey
   }
+
+  saveKeyPair ({
+    publicKey,
+    privateKey
+  }) {
+    database.publicKey = publicKey
+    database.privateKey = privateKey
+  }
+}
+
+module.exports = {
+  database,
+  KeyManagementMemoryRepository
 }
