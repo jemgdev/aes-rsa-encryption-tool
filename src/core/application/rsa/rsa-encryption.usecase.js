@@ -11,7 +11,7 @@ class RSAEncryptionUseCase {
     try {
       const { publicKey } = this.keyManagementRepository.getKeyPair()
 
-      const encryptedData = this.rsaEncryptionRepository.encryptWithRSA({
+      const encryptedData = this.rsaEncryptionRepository.encrypt({
         payload,
         publicKey
       })

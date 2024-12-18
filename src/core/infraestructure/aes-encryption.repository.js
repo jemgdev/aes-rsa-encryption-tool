@@ -1,13 +1,13 @@
 const CryptoJS = require('crypto-js')
 
 class AESEncryptionRepository {
-  generateSymmetrickKey () {
+  generateKey () {
     const symmetrickKey = CryptoJS.enc.Base64.stringify(CryptoJS.lib.WordArray.random(32))
 
     return symmetrickKey
   }
 
-  encryptWithAES ({ payload, keyBase64 }) {
+  encrypt ({ payload, keyBase64 }) {
     try {
       const key = CryptoJS.enc.Base64.parse(keyBase64);
     
@@ -33,7 +33,7 @@ class AESEncryptionRepository {
     }
   }
 
-  decryptWithAES ({ payload, keyBase64 }) {
+  decrypt ({ payload, keyBase64 }) {
     try {
       const key = CryptoJS.enc.Base64.parse(keyBase64)
       const encryptedData = CryptoJS.enc.Base64.parse(payload)

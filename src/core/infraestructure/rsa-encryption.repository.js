@@ -1,7 +1,7 @@
 const forge =  require('node-forge')
 
 class RSAEncryptionRepository {
-  generatePairKeys () {
+  generateKey () {
     try {
       const keyPair = forge.pki.rsa.generateKeyPair({ bits: 2048 })
 
@@ -17,7 +17,7 @@ class RSAEncryptionRepository {
     }
   }
 
-  encryptWithRSA({
+  encrypt ({
     payload,
     publicKey
   }) {
@@ -43,7 +43,7 @@ class RSAEncryptionRepository {
     }
   }
 
-  decryptWithRSA({
+  decrypt ({
     payload,
     privateKey
   }) {

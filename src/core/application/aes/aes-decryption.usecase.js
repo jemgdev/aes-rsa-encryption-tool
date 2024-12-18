@@ -1,4 +1,4 @@
-class AESEncryptionUseCase {
+class AESDecryptionUseCase {
   constructor ({
     aesEncryptionRepository,
     keyManagementRepository
@@ -9,15 +9,12 @@ class AESEncryptionUseCase {
 
   excecute (payload) {
     try {
-      const symmetrickKey = this.aesEncryptionRepository.generateSymmetrickKey()
-      this.keyManagementRepository.saveSymmetrickKey(symmetrickKey)
-
-      const encryptedData = this.aesEncryptionRepository.encryptWithAES({
+      const decryptedData = this.aesEncryptionRepository.decrypt({
         payload,
-        keyBase64: symmetrickKey
+        keyBase64: this.keyManagementRepository.getSymmetrickKey()
       })
-
-      return encryptedData
+  
+      return decryptedData
     } catch (error) {
       throw new Error(error.message)
     }
@@ -25,5 +22,5 @@ class AESEncryptionUseCase {
 }
 
 module.exports = {
-  AESEncryptionUseCase
+  AESDecryptionUseCase
 }

@@ -1,6 +1,6 @@
 const fs = require('node:fs/promises') 
 const path = require('node:path')
-const { environment } = require('../../constants')
+const { environment } = require('../../../constants')
 
 class GenerateKeyPairUseCase {
   constructor ({
@@ -13,7 +13,7 @@ class GenerateKeyPairUseCase {
 
   async excecute () {
     try {
-      const keyPath = path.resolve(path.join(__dirname, '../../custom-keys'))
+      const keyPath = path.resolve(path.join(__dirname, '../../../custom-keys'))
 
       const [
         publicKey,
@@ -26,7 +26,7 @@ class GenerateKeyPairUseCase {
       if (publicKey.status === 'rejected' || privateKey.status === 'rejected') {
         console.log('Private or public key invalid, generating key pairs...')
 
-        const { publicKeyPem, privateKeyPem } = this.rsaEncryptionRepository.generatePairKeys()
+        const { publicKeyPem, privateKeyPem } = this.rsaEncryptionRepository.generateKey()
         this.keyManagementRepository.saveKeyPair({
           publicKey: publicKeyPem,
           privateKey: privateKeyPem
