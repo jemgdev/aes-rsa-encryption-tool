@@ -57,7 +57,28 @@ app.set('PORT', constants.port)
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-app.get('/generate-keys', async (request, response, next) => {
+app.get('/get-key', async (request, response, next) => {
+  try {
+    const generateKeyPairUseCase = new GenerateKeyPairUseCase({
+      rsaEncryptionRepository,
+      keyManagementRepository
+    })
+
+    const publicKey = await generateKeyPairUseCase.excecute()
+
+    response.status(200).json({
+      code: 'OPERATION_SUCCESSFUL',
+      message: 'Key pairs generated and saved',
+      data: {
+        publicKey
+      }
+    })
+  } catch (error) {
+    next(error)
+  }
+})
+
+app.get('/get-key', async (request, response, next) => {
   try {
     const generateKeyPairUseCase = new GenerateKeyPairUseCase({
       rsaEncryptionRepository,
@@ -148,8 +169,8 @@ app.post('/decrypt', async (request, response, next) => {
     if (method === 'aes-rsa') {
       const { symmetrick } = request.body
 
-      const decryptedData = aesRSAEncryptionUseCase.excecute({
-        data: JSON.stringify(dataToDecrypt),
+      const decryptedData = aesRSADecryptionUseCase.excecute({
+        payload: JSON.stringify(dataToDecrypt),
         symmetrick
       })
       

@@ -1,5 +1,5 @@
 node_modules
 package-lock.json
 .env
-src/custom-keys/dev/*
-src/custom-keys/qa/*
+src/custom-keys/*
+src/custom-keys/*
