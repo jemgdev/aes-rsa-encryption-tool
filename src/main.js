@@ -78,7 +78,7 @@ app.get('/get-key', async (request, response, next) => {
   }
 })
 
-app.get('/get-key', async (request, response, next) => {
+app.get('/generate-keys', async (request, response, next) => {
   try {
     const generateKeyPairUseCase = new GenerateKeyPairUseCase({
       rsaEncryptionRepository,
@@ -101,7 +101,7 @@ app.post('/encrypt', async (request, response, next) => {
     const { method, data: dataToEncrypt } = request.body
 
     if (method === 'aes') {
-      const encryptedData = aesEncryptionUseCase.excecute(JSON.stringify(dataToEncrypt))
+      const encryptedData = aesEncryptionUseCase.excecute(dataToEncrypt)
 
       return response.status(200).json({
         code: 'OPERATION_SUCCESSFUL',
@@ -111,7 +111,7 @@ app.post('/encrypt', async (request, response, next) => {
     }
 
     if (method === 'rsa') {
-      const encryptedData = rsaEncryptionUseCase.excecute(JSON.stringify(dataToEncrypt))
+      const encryptedData = rsaEncryptionUseCase.excecute(dataToEncrypt)
 
       return response.status(200).json({
         code: 'OPERATION_SUCCESSFUL',
@@ -147,7 +147,7 @@ app.post('/decrypt', async (request, response, next) => {
     const { method, data: dataToDecrypt } = request.body
 
     if (method === 'aes') {
-      const decryptedData = aesDecryptionUseCase.excecute(JSON.stringify(dataToDecrypt))
+      const decryptedData = aesDecryptionUseCase.excecute(dataToDecrypt)
 
       return response.status(200).json({
         code: 'OPERATION_SUCCESSFUL',
@@ -157,7 +157,7 @@ app.post('/decrypt', async (request, response, next) => {
     }
 
     if (method === 'rsa') {
-      const decryptedData = rsaDecryptionUseCase.excecute(JSON.stringify(dataToDecrypt))
+      const decryptedData = rsaDecryptionUseCase.excecute(dataToDecrypt)
 
       return response.status(200).json({
         code: 'OPERATION_SUCCESSFUL',
