@@ -25,7 +25,7 @@ To run this project, you will need to add the following environment variables to
 
 `PORT: [your node server port], Example: 3000`
 
-`ENVIRONMENT: [your environment], Example: dev | qa`
+`ENVIRONMENT: [your environment], Example: dev | qa | custom-env`
 
 ## Installation
 For install the project, follow the steps:
