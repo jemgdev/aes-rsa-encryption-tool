@@ -3,11 +3,11 @@ Software to encrypt data using AES and RSA encryption methods
 
 # AES Encryption method
 
-![AES Encryption method](AES.png)
+![AES Encryption method](AES.jpg)
 
 # RSA Encryption method
 
-![RSA Encryption method](RSA.png)
+![RSA Encryption method](RSA.jpg)
 
 # AES-RSA Encryption method
 
