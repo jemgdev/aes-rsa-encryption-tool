@@ -1,6 +1,24 @@
 # aes-rsa-encryption
 Software to encrypt data using AES and RSA encryption methods
 
+# AES Encryption method
+
+![AES Encryption method](AES.png)
+
+# RSA Encryption method
+
+![RSA Encryption method](RSA.png)
+
+# AES-RSA Encryption method
+
+## AES-RSA Encrypt
+
+![AES-RSA Encrypt](AES-RSA-Encrypt.png)
+
+## AES-RSA Decrypt
+
+![AES-RSA Encrypt](AES-RSA-Decrypt.png)
+
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file
