@@ -31,7 +31,7 @@ const encrypt = async (request, response, next) => {
     const { method, data: dataToEncrypt } = request.body
 
     if (method === 'aes') {
-      const encryptedData = aesEncryptionUseCase.excecute(dataToEncrypt)
+      const encryptedData = aesEncryptionUseCase.excecute(typeof dataToEncrypt === 'string' ? dataToEncrypt : JSON.stringify(dataToEncrypt))
 
       return response.status(200).json({
         code: 'OPERATION_SUCCESSFUL',
@@ -41,7 +41,7 @@ const encrypt = async (request, response, next) => {
     }
 
     if (method === 'rsa') {
-      const encryptedData = rsaEncryptionUseCase.excecute(dataToEncrypt)
+      const encryptedData = rsaEncryptionUseCase.excecute(typeof dataToEncrypt === 'string' ? dataToEncrypt : JSON.stringify(dataToEncrypt))
 
       return response.status(200).json({
         code: 'OPERATION_SUCCESSFUL',
@@ -51,7 +51,7 @@ const encrypt = async (request, response, next) => {
     }
 
     if (method === 'aes-rsa') {
-      const { data, symmetrick } = aesRSAEncryptionUseCase.excecute(JSON.stringify(dataToEncrypt))
+      const { data, symmetrick } = aesRSAEncryptionUseCase.excecute(typeof dataToEncrypt === 'string' ? dataToEncrypt : JSON.stringify(dataToEncrypt))
       
       return response.status(200).json({
         code: 'OPERATION_SUCCESSFUL',
