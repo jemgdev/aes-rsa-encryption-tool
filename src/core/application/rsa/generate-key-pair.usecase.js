@@ -1,6 +1,6 @@
 const fs = require('node:fs/promises') 
 const path = require('node:path')
-const { environment } = require('../../../constants')
+const { environment } = require('../../../utils/constants')
 
 class GenerateKeyPairUseCase {
   constructor ({
