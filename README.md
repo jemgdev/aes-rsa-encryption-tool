@@ -3,21 +3,21 @@ Software to encrypt data using AES and RSA encryption methods
 
 # AES Encryption method
 
-![AES Encryption method](AES.jpg)
+![AES Encryption method](documentation/AES.jpg)
 
 # RSA Encryption method
 
-![RSA Encryption method](RSA.jpg)
+![RSA Encryption method](documentation/RSA.jpg)
 
 # AES-RSA Encryption method
 
 ## AES-RSA Encrypt
 
-![AES-RSA Encrypt](AES-RSA-Encrypt.png)
+![AES-RSA Encrypt](documentation/AES-RSA-Encrypt.png)
 
 ## AES-RSA Decrypt
 
-![AES-RSA Encrypt](AES-RSA-Decrypt.png)
+![AES-RSA Encrypt](documentation/AES-RSA-Decrypt.png)
 
 ## Environment Variables
 
