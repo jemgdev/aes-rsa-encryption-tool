@@ -18,6 +18,7 @@ class RSADecryptionUseCase {
   
       return decryptedData
     } catch (error) {
+      console.log('RSADecryptionUseCase.excecute error: ', error.message)
       throw new Error(error.message)
     }
   }

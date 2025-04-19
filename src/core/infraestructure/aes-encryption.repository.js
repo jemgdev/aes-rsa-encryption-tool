@@ -29,6 +29,7 @@ class AESEncryptionRepository {
 
       return encryptedData
     } catch (error) {
+      console.log('AESEncryptionRepository.encrypt error: ', error.message)
       throw new Error('Invalid data')
     }
   }
@@ -56,6 +57,7 @@ class AESEncryptionRepository {
 
       return decryptedData
     } catch (error) {
+      console.log('AESEncryptionRepository.decrypt error: ', error.message)
       throw new Error('Invalid data')
     }
   }

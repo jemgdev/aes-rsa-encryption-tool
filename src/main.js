@@ -23,5 +23,5 @@ app.use(errorHandler)
 app.use(notFound)
 
 app.listen(app.get('PORT'), () => {
-  console.log(`Starting server on http://localhost:${app.get('PORT')}`)
+  console.log(`aes-rsa-encryption on http://localhost:${app.get('PORT')}`)
 })

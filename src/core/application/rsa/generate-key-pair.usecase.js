@@ -64,6 +64,7 @@ class GenerateKeyPairUseCase {
 
       return Buffer.from(publicKey.value).toString()
     } catch (error) {
+      console.log('GenerateKeyPairUseCase.excecute error: ', error.message)
       throw new Error(error.message)
     }
   }

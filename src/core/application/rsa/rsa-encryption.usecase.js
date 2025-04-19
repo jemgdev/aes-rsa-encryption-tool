@@ -18,6 +18,8 @@ class RSAEncryptionUseCase {
 
       return encryptedData
     } catch (error) {
+      console.log('RSAEncryptionUseCase.excecute error: ', error.message)
+
       if (error.message === 'RSAES-OAEP input message length is too long.') {
         throw new Error('Data to encrypt is too long')
       }

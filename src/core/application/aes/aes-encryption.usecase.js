@@ -19,6 +19,7 @@ class AESEncryptionUseCase {
 
       return encryptedData
     } catch (error) {
+      console.log('AESEncryptionUseCase.excecute error: ', error.message)
       throw new Error(error.message)
     }
   }

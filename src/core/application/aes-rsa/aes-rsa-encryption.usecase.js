@@ -34,6 +34,7 @@ class AESRSAEncryptionUseCase {
         symmetrick
       }
     } catch (error) {
+      console.log('AESRSAEncryptionUseCase.excecute error: ', error.message)
       throw new Error(error.message)
     }
   }

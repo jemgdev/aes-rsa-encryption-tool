@@ -13,6 +13,7 @@ class RSAEncryptionRepository {
         privateKeyPem
       }
     } catch (error) {
+      console.log('RSAEncryptionRepository.generateKey error: ', error.message)
       throw new Error(error.message)
     }
   }
@@ -39,6 +40,7 @@ class RSAEncryptionRepository {
   
       return encryptedDataBase64
     } catch (error) {
+      console.log('RSAEncryptionRepository.encrypt error: ', error.message)
       throw new Error(error.message)
     }
   }
@@ -65,6 +67,8 @@ class RSAEncryptionRepository {
   
       return decryptedData
     } catch (error) {
+      console.log('RSAEncryptionRepository.decrypt error: ', error.message)
+
       if (error.message === 'Cannot read private key. ASN.1 object does not contain an RSAPrivateKey.') {
         const hashes = {
           md: forge.md.sha256.create(),
@@ -72,8 +76,6 @@ class RSAEncryptionRepository {
         }
     
         const key = forge.pki.decryptRsaPrivateKey(privateKey)
-
-        console.log(key)
     
         const payloadDecoded = forge.util.decode64(payload)
     
