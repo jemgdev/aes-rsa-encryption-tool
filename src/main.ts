@@ -22,6 +22,10 @@ app.use('/api/v1/', decryptRouter)
 app.use(errorHandler)
 app.use(notFound)
 
-app.listen(app.get('PORT'), (): void => {
-  console.log(`aes-rsa-encryption on http://localhost:${app.get('PORT')}`)
-})
+export { app }; // Add this line
+
+if (require.main === module) { // Add this condition
+  app.listen(app.get('PORT'), (): void => {
+    console.log(`aes-rsa-encryption on http://localhost:${app.get('PORT')}`);
+  });
+}

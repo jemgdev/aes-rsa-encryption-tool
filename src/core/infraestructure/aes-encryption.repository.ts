@@ -51,9 +51,10 @@ class AESEncryptionRepository implements AESEncryptionRepositoryInterface {
       const ciphertext: CryptoJS.lib.WordArray = CryptoJS.lib.WordArray.create(encryptedDataWords.words.slice(4));
 
       const decrypted: CryptoJS.lib.WordArray = CryptoJS.AES.decrypt(
-        {
-          ciphertext
-        },
+        // Pass the ciphertext WordArray directly, not an object wrapping it.
+        // Alternatively, one could pass the full base64 payload string if the library handles parsing IV from it with specific config.
+        // But since IV is manually extracted, passing the extracted ciphertext is more direct.
+        CryptoJS.lib.CipherParams.create({ ciphertext: ciphertext }), // Create a valid CipherParams object
         key,
         {
           iv,

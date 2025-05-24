@@ -74,10 +74,8 @@ const decrypt = async (request: Request, response: Response, next: NextFunction)
         code: 'OPERATION_SUCCESSFUL',
         message: 'Data decrypted successfuly',
         data: JSON.parse(decryptedData)
-      })
-    }
-
-    } else {
+      });
+    } else { // Removed extra '}' before this 'else'
       response.status(400).json({
         code: 'BAD_REQUEST',
         message: 'Must specify a valid encryption method: aes, rsa or aes-rsa'

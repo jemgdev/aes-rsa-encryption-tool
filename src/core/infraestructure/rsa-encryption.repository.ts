@@ -25,7 +25,7 @@ interface DecryptParams {
 
 interface RSAOAEPHashes {
   md: forge.md.MessageDigest;
-  mgf1: forge.mgf.MGF;
+  mgf1: typeof forge.mgf.mgf1; // Used typeof as suggested by compiler
 }
 
 interface RSAEncryptionRepositoryInterface {

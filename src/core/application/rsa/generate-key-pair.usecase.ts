@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { environment } from '../../../utils/constants';
+import constants from '../../../utils/constants'; // Changed to default import
+const { environment } = constants; // Destructure environment if it's a property
 
 interface KeyPair {
   publicKey: string;

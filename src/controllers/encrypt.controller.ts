@@ -74,10 +74,9 @@ const encrypt = async (request: Request, response: Response, next: NextFunction)
           data,
           symmetrick
         }
-      })
-    }
-
-    } else {
+      });
+      // No return here, if method is not 'aes', 'rsa', or 'aes-rsa', it should fall through to the else.
+    } else { // Removed extra '}' before this 'else'
       response.status(400).json({
         code: 'BAD_REQUEST',
         message: 'Must specify a valid encryption method: aes, rsa or aes-rsa'
